@@ -150,24 +150,24 @@ function App() {
           <i />
           <span>Global perspective</span>
         </div>
-      </section>
 
-      <section className="focus-strip" id="focus" aria-label="Areas of focus">
-        <div className="focus-heading">
-          <span>Areas of focus</span>
-          <ArrowDownRight size={18} strokeWidth={1.5} />
-        </div>
-        <div className="focus-items">
-          {focusAreas.map((item) => (
-            <a className="focus-item" href={`mailto:hello@purvi.co?subject=${encodeURIComponent(item.title)}`} key={item.number}>
-              <span className="focus-number">{item.number}</span>
-              <span className="focus-copy">
-                <strong>{item.title}</strong>
-                <small>{item.detail}</small>
-              </span>
-              <ArrowUpRight className="focus-arrow" size={17} strokeWidth={1.5} />
-            </a>
-          ))}
+        <div className="hero-focus" id="focus" aria-label="Areas of focus">
+          <div className="focus-heading">
+            <span>Areas of focus</span>
+            <ArrowDownRight size={18} strokeWidth={1.5} />
+          </div>
+          <div className="focus-items">
+            {focusAreas.map((item) => (
+              <a className="focus-item" href={`mailto:hello@purvi.co?subject=${encodeURIComponent(item.title)}`} key={item.number}>
+                <span className="focus-number">{item.number}</span>
+                <span className="focus-copy">
+                  <strong>{item.title}</strong>
+                  <small>{item.detail}</small>
+                </span>
+                <ArrowUpRight className="focus-arrow" size={17} strokeWidth={1.5} />
+              </a>
+            ))}
+          </div>
         </div>
       </section>
     </main>

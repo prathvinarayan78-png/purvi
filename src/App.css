@@ -128,9 +128,10 @@
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(470px, 0.91fr) minmax(490px, 1.09fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   align-items: center;
-  min-height: min(820px, calc(100svh - 205px));
-  padding: 46px clamp(28px, 5vw, 82px) 30px;
+  min-height: calc(100svh - 98px);
+  padding: 32px clamp(28px, 5vw, 82px) 0;
 }
 
 .hero::before {
@@ -613,13 +614,15 @@
   border-top: 1px solid rgba(21, 55, 45, 0.25);
 }
 
-.focus-strip {
+.hero-focus {
   position: relative;
   z-index: 20;
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: minmax(200px, 0.32fr) 1fr;
+  width: 100%;
   min-height: 106px;
-  margin: 0 clamp(28px, 5vw, 82px);
+  margin: 0;
   border-top: 1px solid var(--line);
 }
 
@@ -774,9 +777,6 @@
     display: none;
   }
 
-  .focus-strip {
-    margin-inline: 32px;
-  }
 
   .focus-item {
     padding-inline: 18px;
@@ -892,9 +892,10 @@
     left: 10%;
   }
 
-  .focus-strip {
+  .hero-focus {
     display: block;
-    margin: 0 24px 28px;
+    width: 100%;
+    margin: 28px 0 0;
   }
 
   .focus-heading {
@@ -1010,9 +1011,6 @@
     width: 24px;
   }
 
-  .focus-strip {
-    margin-inline: 20px;
-  }
 
   .focus-items {
     grid-template-columns: 1fr;
