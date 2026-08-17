@@ -2,18 +2,21 @@
 
 :root {
   font-family: 'DM Sans', Arial, sans-serif;
-  color: #15372d;
-  background: #f4f2ec;
+  color: #172644;
+  background: #fbf8ef;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #15372d;
-  --ink-muted: #5e6c66;
-  --paper: #f4f2ec;
-  --paper-soft: #ebe9e2;
-  --line: rgba(21, 55, 45, 0.17);
-  --green-soft: #afbeae;
-  --accent: #bb6240;
+  --ink: #172644;
+  --ink-muted: #626b82;
+  --paper: #fbf8ef;
+  --paper-soft: #f1ecdf;
+  --line: rgba(23, 38, 68, 0.15);
+  --green-soft: #72d8ca;
+  --accent: #f35d3b;
+  --blue: #5065f6;
+  --cyan: #10b9aa;
+  --lime: #cce95a;
 }
 
 * {

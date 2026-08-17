@@ -10,15 +10,18 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.7.0",
     "lucide-react": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@dietrichgebert/ponytail": "latest",
     "@eslint/js": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "^6.0.5",
     "eslint": "latest",
     "eslint-plugin-react-hooks": "latest",
