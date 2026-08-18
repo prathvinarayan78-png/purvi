@@ -1,74 +1,79 @@
 import { lazy, Suspense, useEffect, useState, type CSSProperties } from 'react'
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react'
 import { policyRegions } from './policyRegions'
 import './App.css'
 
-const PolicyGlobe3D = lazy(() => import('./PolicyGlobe3D'))
-
-const focusAreas = [
-  { number: '01', title: 'Policy research', detail: 'Evidence into action' },
-  { number: '02', title: 'Geopolitical analysis', detail: 'Signals into insight' },
-  { number: '03', title: 'Global cooperation', detail: 'Dialogue into progress' },
-]
+const PolicyMap3D = lazy(() => import('./PolicyMap3D'))
 
 function Wordmark() {
   return (
     <a className="wordmark" href="#top" aria-label="Purvi, home">
-      <span className="wordmark-mark" aria-hidden="true">
-        <span />
-        <span />
+      <span className="wordmark-symbol" aria-hidden="true">P</span>
+      <span className="wordmark-copy">
+        <strong>Purvi</strong>
+        <small>Policy · Diplomacy · Strategy</small>
       </span>
-      <span>purvi.</span>
     </a>
   )
 }
 
-function PolicyGlobe() {
+function PolicyMap() {
   const [activeRegion, setActiveRegion] = useState(policyRegions[3])
+  const activeIndex = policyRegions.findIndex((region) => region.id === activeRegion.id)
 
   return (
-    <div className="globe-stage" id="world">
-      <div className="color-aura aura-blue" aria-hidden="true" />
-      <div className="color-aura aura-coral" aria-hidden="true" />
-      <div className="canvas-shell">
-        <Suspense fallback={<div className="globe-loader" aria-label="Loading the 3D policy globe"><span /></div>}>
-          <PolicyGlobe3D activeId={activeRegion.id} onSelect={setActiveRegion} />
+    <div className="map-stage" id="map">
+      <div className="map-aura" aria-hidden="true" />
+
+      <div className="map-console-bar">
+        <span><i /> Geopolitical field map</span>
+        <small>Live analysis · 04 signals</small>
+      </div>
+
+      <div className="map-canvas-shell">
+        <Suspense fallback={<div className="map-loader" aria-label="Loading the 3D policy map"><span /></div>}>
+          <PolicyMap3D activeId={activeRegion.id} onSelect={setActiveRegion} />
         </Suspense>
       </div>
 
-      <div className="coordinate-label coordinate-top" aria-hidden="true">28.6139° N</div>
-      <div className="coordinate-label coordinate-side" aria-hidden="true">77.2090° E</div>
-      <div className="axis-label" aria-hidden="true"><span>X</span><span>Y</span><span>Z</span></div>
+      <div className="map-coordinate coordinate-north" aria-hidden="true">28.6139° N</div>
+      <div className="map-coordinate coordinate-east" aria-hidden="true">77.2090° E</div>
+      <div className="map-index" aria-hidden="true">INTL / 2026</div>
 
       <div
-        className="region-card"
-        style={{ '--region-color': activeRegion.color } as CSSProperties}
+        className="map-insight-card"
+        style={{ '--signal-color': activeRegion.color } as CSSProperties}
         aria-live="polite"
       >
-        <span className="region-kicker">Current lens · 0{policyRegions.findIndex((region) => region.id === activeRegion.id) + 1}</span>
+        <div className="insight-heading">
+          <span>{activeRegion.code}</span>
+          <small>0{activeIndex + 1} / 04</small>
+        </div>
         <strong>{activeRegion.name}</strong>
-        <span>{activeRegion.subject}</span>
+        <em>{activeRegion.subject}</em>
+        <p>{activeRegion.detail}</p>
+        <div className="signal-state"><i />{activeRegion.signal}</div>
       </div>
 
-      <div className="region-selector" role="group" aria-label="Choose a geopolitical focus region">
-        {policyRegions.map((region) => (
+      <div className="map-region-controls" role="group" aria-label="Select a geopolitical focus region">
+        {policyRegions.map((region, index) => (
           <button
             key={region.id}
             type="button"
             className={region.id === activeRegion.id ? 'is-active' : ''}
-            style={{ '--node-color': region.color } as CSSProperties}
+            style={{ '--signal-color': region.color } as CSSProperties}
             aria-pressed={region.id === activeRegion.id}
             onClick={() => setActiveRegion(region)}
           >
-            <span />
-            {region.name}
+            <span>0{index + 1}</span>
+            <strong>{region.name}</strong>
           </button>
         ))}
       </div>
 
-      <div className="globe-caption">
-        <span className="caption-line" />
-        <p><strong>Live policy atlas</strong><br />Move to orbit · select a node</p>
+      <div className="map-instruction" aria-hidden="true">
+        <span />
+        Move to change perspective
       </div>
     </div>
   )
@@ -86,15 +91,16 @@ function App() {
   return (
     <main className={`site-shell ${loaded ? 'is-loaded' : ''}`} id="top">
       <div className="grain" aria-hidden="true" />
+
       <header className="site-header">
         <Wordmark />
 
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Primary navigation">
-          <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <a href="#focus" onClick={() => setMenuOpen(false)}>Expertise</a>
-          <a href="#world" onClick={() => setMenuOpen(false)}>Perspective</a>
+          <a href="#about" onClick={() => setMenuOpen(false)}>Profile</a>
+          <a href="#map" onClick={() => setMenuOpen(false)}>Policy lens</a>
+          <a href="#brief" onClick={() => setMenuOpen(false)}>Expertise</a>
           <a className="nav-contact" href="mailto:hello@purvi.co" onClick={() => setMenuOpen(false)}>
-            Let’s connect <ArrowUpRight size={15} strokeWidth={1.8} />
+            Connect <ArrowUpRight size={15} strokeWidth={1.8} />
           </a>
         </nav>
 
@@ -112,62 +118,49 @@ function App() {
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy" id="about">
           <div className="eyebrow reveal reveal-one">
-            <span className="eyebrow-dot" />
-            Public policy & international relations
+            <span>New Delhi</span>
+            <i />
+            <span>Global systems</span>
           </div>
 
           <h1 id="hero-heading" className="reveal reveal-two">
-            Navigating policy<br />
-            in a world <em>in motion.</em>
+            Policy for a<br />
+            <em>shifting world.</em>
           </h1>
 
           <p className="hero-intro reveal reveal-three">
-            I’m Purvi — I study the forces reshaping our world and turn complex geopolitical change into clear, human-centred policy pathways.
+            I’m Purvi, a public policy and international relations professional translating geopolitical change into clear, practical paths forward.
           </p>
 
+          <div className="expertise-line reveal reveal-three" id="brief" aria-label="Areas of expertise">
+            <span>Policy research</span>
+            <span>Strategic foresight</span>
+            <span>Global cooperation</span>
+          </div>
+
           <div className="hero-actions reveal reveal-four">
-            <a className="primary-action" href="#focus">
-              Explore my work
+            <a className="primary-action" href="mailto:hello@purvi.co?subject=Policy%20conversation">
+              Start a conversation
               <span><ArrowRight size={18} strokeWidth={1.7} /></span>
             </a>
-            <a className="text-action" href="mailto:hello@purvi.co">
-              Start a conversation <ArrowUpRight size={16} strokeWidth={1.7} />
+            <a className="text-action" href="#map">
+              Explore the policy lens <ArrowUpRight size={16} strokeWidth={1.7} />
             </a>
           </div>
 
-          <div className="status-note reveal reveal-five">
-            <span className="status-ring"><span /></span>
-            <p><strong>Currently exploring</strong><br />The future of multilateral cooperation</p>
+          <div className="brief-status reveal reveal-five">
+            <div className="status-signal"><span /></div>
+            <p><small>Current inquiry</small>The future of multilateral cooperation</p>
+            <span className="brief-code">BRIEF / 01</span>
           </div>
         </div>
 
         <div className="hero-visual reveal reveal-visual">
-          <PolicyGlobe />
+          <PolicyMap />
         </div>
 
-        <div className="side-note" aria-hidden="true">
-          <span>Delhi</span>
-          <i />
-          <span>Global perspective</span>
-        </div>
-
-        <div className="hero-focus" id="focus" aria-label="Areas of focus">
-          <div className="focus-heading">
-            <span>Areas of focus</span>
-            <ArrowDownRight size={18} strokeWidth={1.5} />
-          </div>
-          <div className="focus-items">
-            {focusAreas.map((item) => (
-              <a className="focus-item" href={`mailto:hello@purvi.co?subject=${encodeURIComponent(item.title)}`} key={item.number}>
-                <span className="focus-number">{item.number}</span>
-                <span className="focus-copy">
-                  <strong>{item.title}</strong>
-                  <small>{item.detail}</small>
-                </span>
-                <ArrowUpRight className="focus-arrow" size={17} strokeWidth={1.5} />
-              </a>
-            ))}
-          </div>
+        <div className="hero-edge-label" aria-hidden="true">
+          Public policy · International relations · Geopolitical analysis
         </div>
       </section>
     </main>

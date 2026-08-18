@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     // The WebGL globe is lazy-loaded as its own optional visual chunk.
-    chunkSizeWarningLimit: 950,
+    chunkSizeWarningLimit: 1020,
   },
   server: {
     host: '0.0.0.0',

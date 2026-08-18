@@ -1,6 +1,6 @@
 # Purvi — Policy Portfolio Hero
 
-A vibrant, interactive portfolio hero for a public policy and international relations professional. The design pairs an editorial light-mode aesthetic with a true WebGL policy globe, animated diplomatic routes, interactive regional nodes, and responsive geopolitical focus controls.
+An immersive single-screen portfolio hero for a public policy and international relations professional. The design combines a forest, mint and sand visual system with a true WebGL 3D world map, animated diplomatic routes, live geopolitical signals, and responsive regional controls.
 
 ## Run locally
 

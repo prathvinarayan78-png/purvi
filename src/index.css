@@ -2,21 +2,21 @@
 
 :root {
   font-family: 'DM Sans', Arial, sans-serif;
-  color: #172644;
-  background: #fbf8ef;
+  color: #173b31;
+  background: #eee8da;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #172644;
-  --ink-muted: #626b82;
-  --paper: #fbf8ef;
-  --paper-soft: #f1ecdf;
-  --line: rgba(23, 38, 68, 0.15);
-  --green-soft: #72d8ca;
-  --accent: #f35d3b;
-  --blue: #5065f6;
-  --cyan: #10b9aa;
-  --lime: #cce95a;
+  --ink: #173b31;
+  --forest: #123d32;
+  --forest-mid: #28634e;
+  --text-muted: #65756d;
+  --sand: #eee8da;
+  --sand-light: #f7f3e9;
+  --mint: #79c5a5;
+  --lime: #c9df8d;
+  --gold: #d6ae62;
+  --line: rgba(23, 59, 49, 0.17);
 }
 
 * {
@@ -48,11 +48,11 @@ button {
 }
 
 ::selection {
-  color: #fff;
-  background: #436759;
+  color: #f8f3e8;
+  background: var(--forest-mid);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #9f7b35;
   outline-offset: 4px;
 }
