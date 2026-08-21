@@ -11,7 +11,7 @@ function Wordmark() {
       <span className="wordmark-symbol" aria-hidden="true">P</span>
       <span className="wordmark-copy">
         <strong>Purvi</strong>
-        <small>Policy · Diplomacy · Strategy</small>
+        <small>Geopolitics · Policy · Diplomacy</small>
       </span>
     </a>
   )
@@ -26,8 +26,8 @@ function PolicyMap() {
       <div className="map-aura" aria-hidden="true" />
 
       <div className="map-console-bar">
-        <span><i /> Geopolitical field map</span>
-        <small>Live analysis · 04 signals</small>
+        <span><i /> Global strategic systems</span>
+        <small>Open-source policy lens · 04 theatres</small>
       </div>
 
       <div className="map-canvas-shell">
@@ -38,7 +38,7 @@ function PolicyMap() {
 
       <div className="map-coordinate coordinate-north" aria-hidden="true">28.6139° N</div>
       <div className="map-coordinate coordinate-east" aria-hidden="true">77.2090° E</div>
-      <div className="map-index" aria-hidden="true">INTL / 2026</div>
+      <div className="map-index" aria-hidden="true">GLOBAL ORDER / 2026</div>
 
       <div
         className="map-insight-card"
@@ -52,7 +52,7 @@ function PolicyMap() {
         <strong>{activeRegion.name}</strong>
         <em>{activeRegion.subject}</em>
         <p>{activeRegion.detail}</p>
-        <div className="signal-state"><i />{activeRegion.signal}</div>
+        <div className="signal-state"><i />Strategic relevance · {activeRegion.signal}</div>
       </div>
 
       <div className="map-region-controls" role="group" aria-label="Select a geopolitical focus region">
@@ -71,9 +71,10 @@ function PolicyMap() {
         ))}
       </div>
 
-      <div className="map-instruction" aria-hidden="true">
-        <span />
-        Move to change perspective
+      <div className="map-legend" aria-label="Map legend">
+        <span><i className="legend-theatre" />Strategic theatre</span>
+        <span><i className="legend-corridor" />Trade corridor</span>
+        <span><i className="legend-node" />Policy node</span>
       </div>
     </div>
   )
@@ -97,8 +98,8 @@ function App() {
 
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Primary navigation">
           <a href="#about" onClick={() => setMenuOpen(false)}>Profile</a>
-          <a href="#map" onClick={() => setMenuOpen(false)}>Policy lens</a>
-          <a href="#brief" onClick={() => setMenuOpen(false)}>Expertise</a>
+          <a href="#map" onClick={() => setMenuOpen(false)}>Strategic map</a>
+          <a href="#brief" onClick={() => setMenuOpen(false)}>Analysis</a>
           <a className="nav-contact" href="mailto:hello@purvi.co" onClick={() => setMenuOpen(false)}>
             Connect <ArrowUpRight size={15} strokeWidth={1.8} />
           </a>
@@ -120,22 +121,22 @@ function App() {
           <div className="eyebrow reveal reveal-one">
             <span>New Delhi</span>
             <i />
-            <span>Global systems</span>
+            <span>Foreign-policy analysis</span>
           </div>
 
           <h1 id="hero-heading" className="reveal reveal-two">
-            Policy for a<br />
-            <em>shifting world.</em>
+            Making sense<br />
+            of <em>global power.</em>
           </h1>
 
           <p className="hero-intro reveal reveal-three">
-            I’m Purvi, a public policy and international relations professional translating geopolitical change into clear, practical paths forward.
+            I’m Purvi, a public policy and international relations professional examining how power, institutions and strategic competition shape the choices available to states and societies.
           </p>
 
           <div className="expertise-line reveal reveal-three" id="brief" aria-label="Areas of expertise">
-            <span>Policy research</span>
-            <span>Strategic foresight</span>
-            <span>Global cooperation</span>
+            <span>Foreign policy</span>
+            <span>Geopolitical risk</span>
+            <span>Multilateral institutions</span>
           </div>
 
           <div className="hero-actions reveal reveal-four">
@@ -144,14 +145,14 @@ function App() {
               <span><ArrowRight size={18} strokeWidth={1.7} /></span>
             </a>
             <a className="text-action" href="#map">
-              Explore the policy lens <ArrowUpRight size={16} strokeWidth={1.7} />
+              Explore the strategic map <ArrowUpRight size={16} strokeWidth={1.7} />
             </a>
           </div>
 
           <div className="brief-status reveal reveal-five">
             <div className="status-signal"><span /></div>
-            <p><small>Current inquiry</small>The future of multilateral cooperation</p>
-            <span className="brief-code">BRIEF / 01</span>
+            <p><small>Current strategic brief</small>Multipolarity and the future of global institutions</p>
+            <span className="brief-code">STRATEGIC / 01</span>
           </div>
         </div>
 
@@ -160,7 +161,7 @@ function App() {
         </div>
 
         <div className="hero-edge-label" aria-hidden="true">
-          Public policy · International relations · Geopolitical analysis
+          Statecraft · Global order · Security · Political economy
         </div>
       </section>
     </main>

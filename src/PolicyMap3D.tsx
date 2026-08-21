@@ -11,6 +11,28 @@ const MAP_SCALE = 0.0185
 const MAP_OFFSET = 15
 const DELHI: [number, number] = [77.209, 28.614]
 
+const strategicCorridors: Array<{
+  id: string
+  color: string
+  points: Array<[number, number]>
+}> = [
+  {
+    id: 'north-atlantic',
+    color: '#92c9ae',
+    points: [[-75, 40], [-38, 48], [5, 51]],
+  },
+  {
+    id: 'suez-indian-ocean',
+    color: '#d6ae62',
+    points: [[5, 51], [31, 31], [44, 12], [77, 8], [103, 1], [121, 15]],
+  },
+  {
+    id: 'indo-pacific-maritime',
+    color: '#c9df8d',
+    points: [[77, 8], [103, 1], [122, 12], [141, 35]],
+  },
+]
+
 function projectCoordinate([longitude, latitude]: [number, number], depth = 0.22): [number, number, number] {
   return [(longitude - MAP_OFFSET) * MAP_SCALE, latitude * MAP_SCALE, depth]
 }
@@ -114,6 +136,44 @@ function ScanLine() {
   )
 }
 
+function StrategicCorridor({
+  points,
+  color,
+  offset,
+}: {
+  points: Array<[number, number]>
+  color: string
+  offset: number
+}) {
+  const marker = useRef<THREE.Mesh>(null)
+  const curve = useMemo(() => {
+    const projected = points.map((point, index) => {
+      const vector = new THREE.Vector3(...projectCoordinate(point, 0.31))
+      if (index > 0 && index < points.length - 1) vector.z += 0.08
+      return vector
+    })
+    return new THREE.CatmullRomCurve3(projected, false, 'centripetal')
+  }, [points])
+  const geometry = useMemo(() => new THREE.TubeGeometry(curve, 72, 0.008, 5, false), [curve])
+
+  useFrame(({ clock }) => {
+    if (!marker.current) return
+    marker.current.position.copy(curve.getPointAt((clock.elapsedTime * 0.055 + offset) % 1))
+  })
+
+  return (
+    <group>
+      <mesh geometry={geometry}>
+        <meshBasicMaterial color={color} transparent opacity={0.62} />
+      </mesh>
+      <mesh ref={marker}>
+        <sphereGeometry args={[0.026, 10, 10]} />
+        <meshBasicMaterial color={color} toneMapped={false} />
+      </mesh>
+    </group>
+  )
+}
+
 type RouteProps = {
   region: PolicyRegion
   active: boolean
@@ -171,6 +231,14 @@ function MapNode({ region, active, onSelect }: { region: PolicyRegion, active: b
 
   return (
     <group position={position}>
+      <mesh scale={[1.65, 0.78, 1]}>
+        <ringGeometry args={[0.19, 0.205, 56]} />
+        <meshBasicMaterial color={region.color} transparent opacity={active ? 0.58 : 0.14} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh scale={[1.65, 0.78, 1]}>
+        <ringGeometry args={[0.275, 0.282, 56]} />
+        <meshBasicMaterial color={region.color} transparent opacity={active ? 0.28 : 0.06} side={THREE.DoubleSide} />
+      </mesh>
       <mesh
         ref={pulse}
         onClick={(event) => {
@@ -228,6 +296,15 @@ function DimensionalMap({ activeId, onSelect }: { activeId: string, onSelect: (r
       </mesh>
 
       <ScanLine />
+
+      {strategicCorridors.map((corridor, index) => (
+        <StrategicCorridor
+          key={corridor.id}
+          points={corridor.points}
+          color={corridor.color}
+          offset={index * 0.31}
+        />
+      ))}
 
       {policyRegions.map((region, index) => (
         <PolicyRoute key={region.id} region={region} active={activeId === region.id} offset={index * 0.24} />
