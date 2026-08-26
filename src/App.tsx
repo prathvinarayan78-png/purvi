@@ -12,6 +12,7 @@ import WritingDetailPage from './pages/WritingDetailPage'
 import WritingsPage from './pages/WritingsPage'
 import './App.css'
 import './pages.css'
+import './home-sections.css'
 
 export default function App() {
   return (
