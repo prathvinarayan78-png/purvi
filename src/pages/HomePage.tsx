@@ -6,6 +6,50 @@ import { policyRegions } from '../policyRegions'
 
 const PolicyMap3D = lazy(() => import('../PolicyMap3D'))
 
+function StrategicIndex() {
+  const [activeRegion, setActiveRegion] = useState(policyRegions[0])
+  const activeIndex = policyRegions.findIndex((region) => region.id === activeRegion.id)
+
+  return (
+    <section className="strategic-index" aria-labelledby="strategic-index-heading">
+      <div className="strategic-index-sticky">
+        <span>04 / Strategic index</span>
+        <h2 id="strategic-index-heading">One world.<br /><em>Many vantage points.</em></h2>
+        <p>Select a theatre to shift the analytical frame. Each region reveals a different intersection of power, institutions and interdependence.</p>
+        <div className="strategic-index-count"><strong>0{activeIndex + 1}</strong><i /><small>04</small></div>
+      </div>
+
+      <div className="strategic-index-console" style={{ '--index-accent': activeRegion.color } as CSSProperties}>
+        <div className="index-visual" aria-hidden="true">
+          <div className="index-radar"><i /><i /><i /><i /><b /></div>
+          <span>{activeRegion.code}</span>
+          <small>Selected theatre</small>
+        </div>
+        <div className="index-reading" aria-live="polite">
+          <div><span>{activeRegion.code}</span><small>STRATEGIC FRAME / 0{activeIndex + 1}</small></div>
+          <h3>{activeRegion.name}</h3>
+          <em>{activeRegion.subject}</em>
+          <p>{activeRegion.detail}</p>
+          <div className="index-signal"><i /> Relevance: {activeRegion.signal}</div>
+        </div>
+        <div className="index-controls" role="group" aria-label="Choose a strategic theatre">
+          {policyRegions.map((region, index) => (
+            <button
+              type="button"
+              key={region.id}
+              className={region.id === activeRegion.id ? 'is-active' : ''}
+              onClick={() => setActiveRegion(region)}
+              aria-pressed={region.id === activeRegion.id}
+            >
+              <span>0{index + 1}</span><strong>{region.name}</strong><ArrowUpRight size={15} />
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function PolicyMap() {
   const [activeRegion, setActiveRegion] = useState(policyRegions[3])
   const activeIndex = policyRegions.findIndex((region) => region.id === activeRegion.id)
@@ -74,11 +118,57 @@ export default function HomePage() {
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setLoaded(true))
-    return () => cancelAnimationFrame(frame)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const revealElements = document.querySelectorAll<HTMLElement>(
+      '.home-depth > section, .focus-card, .systems-steps article, .home-writing-row',
+    )
+
+    if (reduceMotion) {
+      revealElements.forEach((element) => element.classList.add('scroll-in-view'))
+      return () => cancelAnimationFrame(frame)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('scroll-in-view')
+      }),
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    )
+    revealElements.forEach((element) => observer.observe(element))
+
+    let scrollFrame = 0
+    const updateScroll = () => {
+      scrollFrame = 0
+      const scrollRange = document.documentElement.scrollHeight - window.innerHeight
+      const progress = scrollRange > 0 ? window.scrollY / scrollRange : 0
+      document.documentElement.style.setProperty('--home-scroll', progress.toFixed(4))
+
+      document.querySelectorAll<HTMLElement>('.home-parallax').forEach((section) => {
+        const rect = section.getBoundingClientRect()
+        const localProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height)
+        section.style.setProperty('--section-scroll', Math.max(0, Math.min(1, localProgress)).toFixed(4))
+      })
+    }
+    const onScroll = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll)
+    }
+    updateScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      cancelAnimationFrame(scrollFrame)
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      document.documentElement.style.removeProperty('--home-scroll')
+    }
   }, [])
 
   return (
     <div className={loaded ? 'is-loaded' : ''}>
+      <div className="home-scroll-progress" aria-hidden="true"><i /></div>
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy" id="about">
           <div className="eyebrow reveal reveal-one">
@@ -216,9 +306,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        <StrategicIndex />
+
         <section className="home-writings" aria-labelledby="home-writings-heading">
           <header className="home-section-heading">
-            <div><span>04 / Selected thinking</span><p>Essays, analysis & notes</p></div>
+            <div><span>05 / Selected thinking</span><p>Essays, analysis & notes</p></div>
             <h2 id="home-writings-heading">Ideas to return to—and <em>argue with.</em></h2>
           </header>
           <div className="home-writing-list">
@@ -234,15 +326,15 @@ export default function HomePage() {
           <Link className="all-writing-link" to="/writings">View all writings <ArrowRight size={17} /></Link>
         </section>
 
-        <section className="home-manifesto">
+        <section className="home-manifesto home-parallax">
           <div className="manifesto-lines" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-          <span>05 / The essential question</span>
+          <span>06 / The essential question</span>
           <blockquote>“What does this shift in power make <em>possible</em>—and for whom?”</blockquote>
           <p>Good analysis should not only explain the world as it is. It should illuminate the choices that could shape what comes next.</p>
         </section>
 
         <section className="home-contact-cta">
-          <span>06 / Connect</span>
+          <span>07 / Connect</span>
           <div>
             <p>Research collaboration · Policy conversation · Writing</p>
             <h2>Let’s think through the <em>next question.</em></h2>

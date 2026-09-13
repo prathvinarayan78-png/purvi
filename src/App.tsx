@@ -13,6 +13,7 @@ import WritingsPage from './pages/WritingsPage'
 import './App.css'
 import './pages.css'
 import './home-sections.css'
+import './home-interactions.css'
 
 export default function App() {
   return (
